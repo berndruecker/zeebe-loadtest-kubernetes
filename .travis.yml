@@ -1,0 +1,32 @@
+language: java
+
+sudo: true
+
+script: 
+  - cd zeebe-loadtest-starter
+  - mvn clean package
+  - cd ../zeebe-loadtest-worker
+  - mvn clean package
+  - cd ..
+
+services:
+  - docker
+
+cache:
+  directories:
+    - $HOME/.m2
+jdk:
+  - oraclejdk8
+os:
+  - linux
+
+branches:
+  only:
+    - master
+
+after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker build -t berndruecker/zeebe-loadtest-starter ./zeebe-loadtest-starter/
+  - docker push berndruecker/zeebe-loadtest-starter
+  - docker build -t berndruecker/zeebe-loadtest-worker ./zeebe-loadtest-worker/
+  - docker push berndruecker/zeebe-loadtest-worker
