@@ -8,9 +8,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import io.zeebe.client.ZeebeClient;
 
+@Component
 public class Starter {
   
   static AtomicInteger amount = new AtomicInteger();
