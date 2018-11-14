@@ -10,7 +10,7 @@ spec:
   - port: 26501
     name: client
   - port: 26502
-    name: gossip
+    name: management
   - port: 26503
     name: replication
   - port: 26504

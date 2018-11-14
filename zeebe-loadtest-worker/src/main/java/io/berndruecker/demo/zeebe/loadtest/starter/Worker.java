@@ -31,7 +31,7 @@ public class Worker {
         .handler((jobClient, job) -> {
           jobClient
               .newCompleteCommand(job.getKey())
-              .send();
+              .send().join();
           amount.incrementAndGet();
         }).open();
   }

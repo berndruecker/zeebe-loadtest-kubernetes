@@ -34,7 +34,7 @@ public class Starter {
         .bpmnProcessId("simple-workflow")
         .latestVersion()
         .payload(payload)
-        .send();
+        .send().join();
     amount.incrementAndGet();
   }
 

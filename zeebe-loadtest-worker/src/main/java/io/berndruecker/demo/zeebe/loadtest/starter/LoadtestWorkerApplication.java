@@ -21,7 +21,7 @@ public class LoadtestWorkerApplication {
   
   @Bean
   public ZeebeClient zeebe() {
-    System.out.println("Connect to Zeebe at '" + zeebeBrokerContactPoint + "'");
+    System.out.println("Connect to Zeebe at '" + zeebeBrokerContactPoint + "'...");
     
     // Cannot yet use Spring Zeebe in current alpha
     ZeebeClient zeebeClient = ZeebeClient.newClientBuilder() //
@@ -39,6 +39,8 @@ public class LoadtestWorkerApplication {
       .addResourceFromClasspath("simple-workflow.bpmn") //
       .send().join();      
     }
+    
+    System.out.println("...connected");
     
     return zeebeClient;
   }
