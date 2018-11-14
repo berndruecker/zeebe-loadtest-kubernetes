@@ -17,11 +17,7 @@ spec:
     spec:
       containers:
       - name: zeebe
-        image: camunda/zeebe:0.12.1
-#        lifecycle:
-#          postStart:
-#            exec:
-#              command: ["/bin/sh", "-c", "export ZEEBE_NODE_ID=${MY_POD_NAME##*-}"]
+        image: camunda/zeebe:0.12.0
         ports:
         - containerPort: 26500
           name: gateway
@@ -34,16 +30,8 @@ spec:
                 fieldPath: metadata.name   
           - name: ZEEBE_CLUSTER_SIZE
             value: "3"
-#          - name: ZEEBE_NODE_ID
-#            valueFrom:
-#              fieldRef:
-#                fieldPath: metadata.annotations['spec.pod.beta.kubernetes.io/statefulset-index']
           - name: ZEEBE_CONTACT_POINTS
             value: "zeebe-0.zeebe:26502, zeebe-1.zeebe:26502, zeebe-2.zeebe:26502"
-#          - name: TEST
-#            valueFrom:
-#              fieldRef:
-#                fieldPath: metadata.annotations['spec.pod.beta.kubernetes.io/statefulset-index']
         command:
           - "/bin/sh"
           - "-c"

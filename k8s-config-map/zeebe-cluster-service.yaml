@@ -7,13 +7,7 @@ metadata:
 spec:
   clusterIP: None # <--
   ports:
-  - port: 26500
-    name: gateway
-#  - port: 26501
-#    name: x
   - port: 26502
     name: cluster
-#  - port: 26503
-#    name: x
   selector:
     app: zeebe

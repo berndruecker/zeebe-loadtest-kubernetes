@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: load-starter
+  labels:
+    app: load-starter
+spec:
+  selector:
+    matchLabels:
+      app: load-starter
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: load-starter
+    spec:
+      containers:
+      - name: load-starter
+        image: berndruecker/zeebe-loadtest-starter:latest
+        imagePullPolicy: Always
+        env:
+          - name: zeebe.brokerContactPoint            
+            value: "zeebe-gateway:26500"
+
