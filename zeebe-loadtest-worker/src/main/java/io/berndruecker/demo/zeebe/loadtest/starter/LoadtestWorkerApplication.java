@@ -28,19 +28,7 @@ public class LoadtestWorkerApplication {
         .brokerContactPoint(zeebeBrokerContactPoint) //
         .build();
     
-    // check if workflow is already deployed:
-    List<Workflow> workflows = zeebeClient.workflowClient()
-      .newWorkflowRequest()
-      .send().join()
-      .getWorkflows();
-    if (workflows.size()==0) {
-      // Trigger deployment
-      zeebeClient.workflowClient().newDeployCommand() //
-      .addResourceFromClasspath("simple-workflow.bpmn") //
-      .send().join();      
-    }
-    
-    System.out.println("...connected");
+    System.out.println("...connected.");
     
     return zeebeClient;
   }
