@@ -29,12 +29,16 @@ public class Starter {
   }
 
   private void startInstance(String payload) {
-    zeebeClient.workflowClient()
-        .newCreateInstanceCommand()
-        .bpmnProcessId("simple-workflow")
-        .latestVersion()
-        .payload(payload)
-        .send().join();
+    try {
+      zeebeClient.workflowClient()
+          .newCreateInstanceCommand()
+          .bpmnProcessId("simple-workflow")
+          .latestVersion()
+          .payload(payload)
+          .send().join();
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
     amount.incrementAndGet();
   }
 

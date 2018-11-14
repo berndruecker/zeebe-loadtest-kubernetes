@@ -43,7 +43,7 @@ public class Worker {
       public void run() {
         Date date = new Date();
         int currentAmount = amount.getAndSet(0);
-        System.out.println("Completed Jobs for "+type+": " + date.toString() + ": " + currentAmount);
+        System.out.println(date.toString() + ": " + currentAmount);
       }
     }, 0, 10000);
   }
