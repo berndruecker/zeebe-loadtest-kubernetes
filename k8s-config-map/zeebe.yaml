@@ -21,8 +21,14 @@ spec:
         ports:
         - containerPort: 26500
           name: gateway
+        - containerPort: 26501
+          name: client
         - containerPort: 26502
-          name: cluster
+          name: gossip
+        - containerPort: 26503
+          name: replication
+        - containerPort: 26504
+          name: subscription
         env:
           - name: MY_POD_NAME
             valueFrom:
