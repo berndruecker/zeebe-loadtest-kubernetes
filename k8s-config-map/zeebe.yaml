@@ -38,6 +38,8 @@ spec:
             value: "3"
           - name: ZEEBE_CONTACT_POINTS
             value: "zeebe-0.zeebe:26502, zeebe-1.zeebe:26502, zeebe-2.zeebe:26502"
+          - name: ZEEBE_LOG_LEVEL
+            value: debug
         command:
           - "/bin/sh"
           - "-c"
