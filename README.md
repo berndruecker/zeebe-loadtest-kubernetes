@@ -1,7 +1,7 @@
 # zeebe-loadtest-kubernetes
 Load tests for Zeebe which can be run on Kubernetes using Helm charts to provision everything automatically.
 
-!(setup.png "Load Test Setup")
+![Load Test Setup](setup.png)
 
 ## Running this on Google Cloud
 
