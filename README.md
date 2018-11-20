@@ -7,7 +7,8 @@ Load tests for Zeebe which can be run on Kubernetes using Helm charts to provisi
 
 You should be able to run in on every Kubernetes environment, I currently run it on Google Cloud by:
 
-* Create the cluster:
+### Create a cluster
+
 ```
 gcloud container clusters create zeebe-load --num-nodes 8 --machine-type=n1-standard-2
 ```
@@ -20,7 +21,9 @@ Other machine types: n1-highmem-2, n1-standard-2, n1-highcpu-2
 cd k8s-config-map
 ```
 
-* Create ElasticSearch for Exporter
+### ElasticSearch
+
+Uses for Operate but also to collect metrics for throughput
 
 ```
 kubectl apply -f elastic-storage.yaml
@@ -30,8 +33,9 @@ kubectl apply -f elastic-service-loadbalancer.yaml
 kubectl apply -f elastic.yaml
 ```
 
+### Zeebe Cluster
 
-* Create Zeebe cluster (services go first!). The config adds the exporter to Elastic, so make sure it is created first.
+Services have to be created first so that nodes can find each otheer. The config adds the exporter to Elastic, so make sure it is created first.
 
 ```
 kubectl apply -f zeebe-service-cluster.yaml
@@ -40,14 +44,16 @@ kubectl apply -f zeebe-config.yaml
 kubectl apply -f zeebe.yaml
 ```
 
-* Create load / workers (do not start before Zeebe is up)
+### Load Generator and Workers
+
+Create load / workers (do not start before Zeebe is up!)
 
 ```
 kubectl apply -f load-starter.yaml
 kubectl apply -f load-worker.yaml
 ```
 
-* Start Operate
+### Operate
 
 ```
 kubectl apply -f operate-config.yaml
@@ -55,6 +61,14 @@ kubectl apply -f operate-service-loadbalancer.yaml
 kubectl apply -f operate.yaml
 ```
 
+### Kibana
+
+```
+kubectl apply -f kibana.yaml
+kubectl apply -f kibana-service-loadbalancer.yaml
+```
+
+### Cleanup
 
 * Delete cluster once you are finished
 
