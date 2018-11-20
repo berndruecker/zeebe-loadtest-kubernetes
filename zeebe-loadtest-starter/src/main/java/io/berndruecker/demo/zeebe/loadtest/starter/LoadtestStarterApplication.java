@@ -36,7 +36,7 @@ public class LoadtestStarterApplication {
     if (workflows.size()==0) {
       // Trigger deployment
       zeebeClient.workflowClient().newDeployCommand() //
-      .addResourceFromClasspath("simple-workflow.bpmn") //
+      .addResourceFromClasspath("sample-load-generation-workflow.bpmn") //
       .send().join();      
     }
     

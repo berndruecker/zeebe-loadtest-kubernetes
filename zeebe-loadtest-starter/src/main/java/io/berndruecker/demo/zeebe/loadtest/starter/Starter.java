@@ -32,7 +32,7 @@ public class Starter {
     try {
       zeebeClient.workflowClient()
           .newCreateInstanceCommand()
-          .bpmnProcessId("simple-workflow")
+          .bpmnProcessId("sample-load-generation-workflow")
           .latestVersion()
           .payload(payload)
           .send().join();
