@@ -24,25 +24,25 @@ public class MeasurementCollector {
   @Value("${loadtest.type")
   private String type;
 
-  @Value("${loadtest.numberOfClientNodes")
+  @Value("${loadtest.numberOfClientNodes}")
   private int numberOfClientNodes;
 
-  @Value("${loadtest.numberOfBrokerNodes")
+  @Value("${loadtest.numberOfBrokerNodes}")
   private int numberOfBrokerNodes;
 
-  @Value("${loadtest.replicationFactor")
+  @Value("${loadtest.replicationFactor}")
   private int replicationFactor;
 
-  @Value("${loadtest.numberOfPartitions")
+  @Value("${loadtest.numberOfPartitions}")
   private int numberOfPartitions;
 
-  @Value("${loadtest.numberOfMachines")
+  @Value("${loadtest.numberOfMachines}")
   private int numberOfMachines;
 
-  @Value("${loadtest.machineType")
+  @Value("${loadtest.machineType}")
   private String machineType;
   
-  @Value("${loadtest.storage")
+  @Value("${loadtest.storage}")
   private String storage;
   
   @Autowired
