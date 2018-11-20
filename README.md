@@ -24,7 +24,9 @@ cd k8s-config-map
 
 ```
 kubectl apply -f elastic-storage.yaml
-kubectl apply -f elastic-service.yaml
+kubectl apply -f elastic-service-cluster.yaml
+kubectl apply -f elastic-service-gateway.yaml
+kubectl apply -f elastic-service-loadbalancer.yaml
 kubectl apply -f elastic.yaml
 ```
 
