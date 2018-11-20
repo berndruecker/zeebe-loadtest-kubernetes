@@ -23,4 +23,7 @@ spec:
             value: "zeebe-gateway:26500"
           - name: elasticsearch.url          
             value: "http://elastic-gateway:9200"
+          - name: elasticsearch.currentConfigDescription
+            value: "starter: 1, nodes: 3, replication, partitions: 3"
+
 
