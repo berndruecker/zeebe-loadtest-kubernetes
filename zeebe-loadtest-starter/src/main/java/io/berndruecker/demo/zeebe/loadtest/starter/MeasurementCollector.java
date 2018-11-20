@@ -21,8 +21,11 @@ public class MeasurementCollector {
   
   static AtomicInteger amount = new AtomicInteger();
   
-  @Value("${elasticsearch.currentConfigDescription")
+  @Value("${loadtest.currentConfigDescription")
   private String currentConfigDescription;
+
+  @Value("${loadtest.type")
+  private String type;
   
   @Autowired
   private RestHighLevelClient elasticClient;
@@ -54,8 +57,8 @@ public class MeasurementCollector {
 
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("timestamp", date);
-        jsonMap.put("type", "started");
-        jsonMap.put("type", currentConfigDescription);        
+        jsonMap.put("type", type);
+        jsonMap.put("config", currentConfigDescription);        
         jsonMap.put("hostname", InetAddress.getLocalHost().getHostName());
         jsonMap.put("count", count);
 

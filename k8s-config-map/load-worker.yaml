@@ -23,6 +23,8 @@ spec:
             value: "zeebe-gateway:26500"
           - name: elasticsearch.url          
             value: "http://elastic-gateway:9200"
-          - name: elasticsearch.currentConfigDescription
+          - name: loadtest.type
+            value: "worker"
+          - name: loadtest.currentConfigDescription
             value: "worker: 1, nodes: 3, replication, partitions: 3"
 

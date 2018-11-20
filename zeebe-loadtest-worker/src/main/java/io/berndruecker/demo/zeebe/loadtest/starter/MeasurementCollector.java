@@ -13,12 +13,19 @@ import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MeasurementCollector {
   
   static AtomicInteger amount = new AtomicInteger();
+  
+  @Value("${loadtest.currentConfigDescription")
+  private String currentConfigDescription;
+
+  @Value("${loadtest.type")
+  private String type;
   
   @Autowired
   private RestHighLevelClient elasticClient;
@@ -50,7 +57,8 @@ public class MeasurementCollector {
 
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("timestamp", date);
-        jsonMap.put("type", "started");
+        jsonMap.put("type", type);
+        jsonMap.put("config", currentConfigDescription);        
         jsonMap.put("hostname", InetAddress.getLocalHost().getHostName());
         jsonMap.put("count", count);
 
