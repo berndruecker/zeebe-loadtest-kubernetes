@@ -14,23 +14,45 @@ gcloud container clusters create zeebe-load --num-nodes 8 --machine-type=n1-stan
 
 Other machine types: n1-highmem-2, n1-standard-2, n1-highcpu-2
 
-* Create Zeebe cluster (services go first!)
+* Make sure you are in the directory of the config maps:
 
 ```
 cd k8s-config-map
-kubectl apply -f zeebe-cluster-service.yaml
-kubectl apply -f zeebe-gateway-service.yaml
+```
+
+* Create ElasticSearch for Exporter
+
+```
+kubectl apply -f elastic-storage.yaml
+kubectl apply -f elastic-service.yaml
+kubectl apply -f elastic.yaml
+```
+
+
+* Create Zeebe cluster (services go first!). The config adds the exporter to Elastic, so make sure it is created first.
+
+```
+kubectl apply -f zeebe-service-cluster.yaml
+kubectl apply -f zeebe-service-gateway.yaml
+kubectl apply -f zeebe-config.yaml
 kubectl apply -f zeebe.yaml
 ```
 
 * Create load / workers (do not start before Zeebe is up)
 
 ```
-cd k8s-config-map
-kubectl apply -f zeebe-cluster-service.yaml
-kubectl apply -f zeebe-gateway-service.yaml
-kubectl apply -f zeebe.yaml
+kubectl apply -f load-starter.yaml
+kubectl apply -f load-worker.yaml
 ```
+
+* Start Operate
+
+```
+kubectl apply -f operate-config.yaml
+kubectl apply -f operate-service-loadbalancer.yaml
+kubectl apply -f operate.yaml
+```
+
 
 * Delete cluster once you are finished
 

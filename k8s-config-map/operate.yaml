@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: operate
+  labels:
+    app: operate
+spec:
+  replicas: 1
+#  revisionHistoryLimit: 0
+#  strategy:
+#    rollingUpdate:
+#      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: operate
+  template:
+    metadata:
+      labels:
+        app: operate
+    spec:
+#      automountServiceAccountToken: false
+#      nodeSelector:
+#        cloud.google.com/gke-nodepool: services
+      volumes:
+      - name: configuration
+        configMap:
+          name: operate-config
+          defaultMode: 0744
+      initContainers:
+      - name: init-sysctl
+        image: busybox
+        imagePullPolicy: IfNotPresent
+        command: ["sysctl", "-w", "vm.max_map_count=262144"]
+        securityContext:
+          privileged: true
+      containers:
+      - name: operate
+        image: berndruecker/zeebe-loadtest-operate
+        imagePullPolicy: Always
+        env:
+        - name: JAVA_OPTS
+          value: |
+            -XX:+UnlockExperimentalVMOptions
+            -XX:+UseCGroupMemoryLimitForHeap
+            -XX:MaxRAMFraction=1
+#        - name: SPRING_PROFILES_ACTIVE
+#          value: "usertest-data"
+        ports:
+        - containerPort: 8080
+          name: operate-http
+        tty: true
+        livenessProbe:
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          httpGet:
+            path: /
+            port: operate-http
+        readinessProbe:
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          httpGet:
+            path: /
+            port: operate-http
+        resources:
+          limits:
+            cpu: 1
+            memory: 1Gi
+          requests:
+            cpu: 0.5
+            memory: 512Mi
+        volumeMounts:
+          - name: configuration
+            mountPath: /config/application.yml
+            subPath: application.yml

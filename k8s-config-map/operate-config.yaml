@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: operate-config
+  labels:
+    app: operate-config
+data:
+  application.yml: |
+    debug: false
+    springfox.documentation.swagger.v2.path: /documentation
+    camunda.bpm.operate:
+      elasticsearch:
+        clusterName: elasticsearch-cluster
+        host: elastic-rest
+        port: 9300
+      zeebe:
+        brokerContactPoint: zeebe-gateway:26500
+        topics:
+          - new-topic
+        worker: operate
+      zeebeElasticsearch:
+        clusterName: elasticsearch-cluster
+        host: elastic-rest
+        port: 9300
+        prefix: operate
+    logging:
+      level:
+        ROOT: INFO
+        org.camunda.operate: INFO
