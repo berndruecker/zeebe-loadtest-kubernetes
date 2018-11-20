@@ -30,3 +30,5 @@ after_success:
   - docker push berndruecker/zeebe-loadtest-starter
   - docker build -t berndruecker/zeebe-loadtest-worker ./zeebe-loadtest-worker/
   - docker push berndruecker/zeebe-loadtest-worker
+  - docker build -t berndruecker/zeebe-loadtest-operate ./zeebe-loadtest-operate/
+  - docker push berndruecker/zeebe-loadtest-operate
