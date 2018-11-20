@@ -77,7 +77,8 @@ spec:
             mountPath: /usr/local/zeebe/conf/zeebe.cfg.toml
             subPath: zeebe.cfg.toml
         command:
-          - sh
-          - -c
-          - echo -e export ZEEBE_NODE_ID=$((${MY_POD_NAME##*-})) && /usr/local/bin/startup.sh
+          - "/bin/sh"
+          - "-c"
+          - "export ZEEBE_NODE_ID=$((${MY_POD_NAME##*-})) && /usr/local/bin/startup.sh"
+
 # [[exporters]]\nid="elasticsearch"\nclassName="io.zeebe.exporter.ElasticsearchExporter"\n[exporter.args]\nurl="http://elastic-rest:9200"\n[exporters.args.bulk]\nsize=1' >> conf/zeebe.cfg.toml &&
