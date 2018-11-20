@@ -11,7 +11,7 @@ data:
     className = "io.zeebe.exporter.ElasticsearchExporter"
 
       [exporters.args]
-      url = "http://elastic-rest:9200"
+      url = "http://elastic-gateway:9200"
 
       [exporters.args.bulk]
       delay = 1

@@ -11,7 +11,7 @@ data:
     camunda.bpm.operate:
       elasticsearch:
         clusterName: elasticsearch-cluster
-        host: elastic-rest
+        host: elastic-gateway
         port: 9300
       zeebe:
         brokerContactPoint: zeebe-gateway:26500
@@ -20,7 +20,7 @@ data:
         worker: operate
       zeebeElasticsearch:
         clusterName: elasticsearch-cluster
-        host: elastic-rest
+        host: elastic-gateway
         port: 9300
         prefix: operate
     logging:
