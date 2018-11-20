@@ -1,8 +1,6 @@
 # zeebe-loadtest-kubernetes
 Load tests for Zeebe which can be run on Kubernetes using Helm charts to provision everything automatically.
 
-![Load Test Setup](setup.png)
-
 ## Running this on Google Cloud
 
 You should be able to run in on every Kubernetes environment, I currently run it on Google Cloud by:
@@ -98,3 +96,7 @@ tail -f /usr/local/zeebe/logs/zeebe.log
 ```
 kubectl cp zeebe-0:/usr/local/zeebe/logs/zeebe.log logs
 ```
+
+## TODO: Overview pic
+
+![Load Test Setup](setup.png)
