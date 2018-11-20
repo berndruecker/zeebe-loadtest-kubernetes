@@ -8,7 +8,7 @@ You should be able to run in on every Kubernetes environment, I currently run it
 ### Create a cluster
 
 ```
-gcloud container clusters create zeebe-load --num-nodes 8 --machine-type=n1-standard-2
+gcloud container clusters create zeebe-load --num-nodes 8 --machine-type=n1-standard-4
 ```
 
 Other machine types: n1-highmem-2, n1-standard-2, n1-highcpu-2

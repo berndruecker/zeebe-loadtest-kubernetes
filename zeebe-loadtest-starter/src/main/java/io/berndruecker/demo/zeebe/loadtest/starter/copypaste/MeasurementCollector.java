@@ -1,4 +1,4 @@
-package io.berndruecker.demo.zeebe.loadtest.starter;
+package io.berndruecker.demo.zeebe.loadtest.starter.copypaste;
 
 import java.net.InetAddress;
 import java.util.Date;
@@ -19,19 +19,37 @@ import org.springframework.stereotype.Component;
 @Component
 public class MeasurementCollector {
   
-  static AtomicInteger amount = new AtomicInteger();
+  static AtomicInteger count = new AtomicInteger();
   
-  @Value("${loadtest.currentConfigDescription")
-  private String currentConfigDescription;
-
   @Value("${loadtest.type")
   private String type;
+
+  @Value("${loadtest.numberOfClientNodes")
+  private int numberOfClientNodes;
+
+  @Value("${loadtest.numberOfBrokerNodes")
+  private int numberOfBrokerNodes;
+
+  @Value("${loadtest.replicationFactor")
+  private int replicationFactor;
+
+  @Value("${loadtest.numberOfPartitions")
+  private int numberOfPartitions;
+
+  @Value("${loadtest.numberOfMachines")
+  private int numberOfMachines;
+
+  @Value("${loadtest.machineType")
+  private String machineType;
+  
+  @Value("${loadtest.storage")
+  private String storage;
   
   @Autowired
   private RestHighLevelClient elasticClient;
   
   public void increment() {
-    amount.incrementAndGet();
+    count.incrementAndGet();
   }  
 
   public void start() {
@@ -40,9 +58,9 @@ public class MeasurementCollector {
       @Override
       public void run() {
         Date date = new Date();
-        int count = amount.getAndSet(0);
-        sendToElastic(date, count);
-        sendToConsole(count);
+        int currentCount = count.getAndSet(0);
+        sendToElastic(date, currentCount);
+        sendToConsole(currentCount);
       }
     }, 0, 10000); // every 10 seconds
   }
@@ -57,13 +75,20 @@ public class MeasurementCollector {
 
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("timestamp", date);
+
         jsonMap.put("type", type);
-        jsonMap.put("config", currentConfigDescription);        
+        jsonMap.put("config", numberOfClientNodes);       
+        jsonMap.put("config", numberOfBrokerNodes);        
+        jsonMap.put("config", replicationFactor);        
+        jsonMap.put("config", numberOfMachines);        
+        jsonMap.put("config", machineType);
+        jsonMap.put("config", storage);        
+        
         jsonMap.put("hostname", InetAddress.getLocalHost().getHostName());
         jsonMap.put("count", count);
 
         IndexRequest indexRequest = new IndexRequest(//
-            "zeebe-load-metrics", //
+            "zeebe-load-metrics-" + type, //
             "doc", //
             UUID.randomUUID().toString()) //
                 .source(jsonMap);

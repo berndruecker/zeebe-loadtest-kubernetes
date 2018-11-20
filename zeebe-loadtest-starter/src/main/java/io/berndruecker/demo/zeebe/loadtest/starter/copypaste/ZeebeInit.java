@@ -1,4 +1,4 @@
-package io.berndruecker.demo.zeebe.loadtest.starter;
+package io.berndruecker.demo.zeebe.loadtest.starter.copypaste;
 
 import java.util.List;
 

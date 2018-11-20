@@ -5,6 +5,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import io.berndruecker.demo.zeebe.loadtest.starter.copypaste.MeasurementCollector;
 import io.zeebe.client.ZeebeClient;
 
 @Component
