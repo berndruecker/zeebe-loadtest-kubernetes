@@ -63,8 +63,8 @@ spec:
             value: "3"
           - name: ZEEBE_PARTITIONS_COUNT
             value: "3"
-          - name: ZEEBE_LOG_LEVEL
-            value: debug
+          #- name: ZEEBE_LOG_LEVEL
+          #  value: debug
         #resources:
         #  limits:
         #    cpu: 1
