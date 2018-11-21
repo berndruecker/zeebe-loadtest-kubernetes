@@ -77,12 +77,12 @@ public class MeasurementCollector {
         jsonMap.put("timestamp", date);
 
         jsonMap.put("type", type);
-        jsonMap.put("config", numberOfClientNodes);       
-        jsonMap.put("config", numberOfBrokerNodes);        
-        jsonMap.put("config", replicationFactor);        
-        jsonMap.put("config", numberOfMachines);        
-        jsonMap.put("config", machineType);
-        jsonMap.put("config", storage);        
+        jsonMap.put("numberOfClientNodes", numberOfClientNodes);       
+        jsonMap.put("numberOfBrokerNodes", numberOfBrokerNodes);        
+        jsonMap.put("replicationFactor", replicationFactor);        
+        jsonMap.put("numberOfMachines", numberOfMachines);        
+        jsonMap.put("machineType", machineType);
+        jsonMap.put("storage", storage);        
         
         jsonMap.put("hostname", InetAddress.getLocalHost().getHostName());
         jsonMap.put("count", count);
