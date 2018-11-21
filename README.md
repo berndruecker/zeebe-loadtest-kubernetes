@@ -21,7 +21,9 @@ cd k8s-config-map
 
 ### ElasticSearch
 
-Uses for Operate but also to collect metrics for throughput
+Uses for Operate but also to collect metrics for throughput.
+
+I use a relatively simple standard setup motivated by https://medium.com/google-cloud/a-guide-to-deploy-elasticsearch-cluster-on-google-kubernetes-engine-52f67743ee98 and the internal https://github.com/camunda-ci/k8s-infrastructure/tree/master/infrastructure/ci-30-162810/deployments/operate-branch
 
 ```
 kubectl apply -f elastic-storage.yaml

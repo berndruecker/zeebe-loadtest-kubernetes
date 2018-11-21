@@ -21,7 +21,7 @@ public class MeasurementCollector {
   
   static AtomicInteger count = new AtomicInteger();
   
-  @Value("${loadtest.type")
+  @Value("${loadtest.type}")
   private String type;
 
   @Value("${loadtest.numberOfClientNodes}")
