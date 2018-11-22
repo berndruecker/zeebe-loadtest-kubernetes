@@ -12,11 +12,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ElasticsearchInit {
 
-  @Value("${elasticsearch.url}")
+  @Value("${elasticsearch.url:#{null}}")
   private String elasticsearchUrl;
 
   @Bean
   public RestHighLevelClient createElasticClient() {
+    if (elasticsearchUrl==null) {
+      System.out.println("Skipping ElasticSearch as no URL is configured");
+      return null;
+    }
     try {
       System.out.println("Connect to ElasticSearch at '" + elasticsearchUrl + "'...");
   

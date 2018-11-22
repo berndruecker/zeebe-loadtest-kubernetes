@@ -45,13 +45,13 @@ public class MeasurementCollector {
   @Value("${loadtest.storage}")
   private String storage;
   
-  @Value("${zeebe.numberOfWorkerThreads}")
+  @Value("${zeebe.numberOfWorkerThreads:1}")
   private int numberOfWorkerThreads;   
 
-  @Value("${loadtest.bpmnProcess}")
+  @Value("${loadtest.bpmnProcess:default}")
   private String bpmnProcessId;
   
-  @Value("${loadtest.workExecutionTimeInMillis}")
+  @Value("${loadtest.workExecutionTimeInMillis:0}")
   private int workExecutionTimeInMillis;
 
   

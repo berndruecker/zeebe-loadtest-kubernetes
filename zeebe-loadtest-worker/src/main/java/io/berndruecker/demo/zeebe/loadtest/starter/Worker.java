@@ -21,10 +21,10 @@ public class Worker {
   @Autowired
   private MeasurementCollector measure;
   
-  @Value("${loadtest.workExecutionTimeInMillis}")
+  @Value("${loadtest.workExecutionTimeInMillis:0}")
   private int workExecutionTimeInMillis = 0;
 
-  @Value("${loadtest.jobType}")
+  @Value("${loadtest.jobType:some-work}")
   private List<String> jobTypes = Collections.singletonList("some-work");  
 
   @PostConstruct
