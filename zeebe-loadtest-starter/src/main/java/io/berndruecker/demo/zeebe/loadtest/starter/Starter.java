@@ -1,8 +1,15 @@
 package io.berndruecker.demo.zeebe.loadtest.starter;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.charset.Charset;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import io.berndruecker.demo.zeebe.loadtest.starter.copypaste.MeasurementCollector;
@@ -17,11 +24,19 @@ public class Starter {
   @Autowired
   private MeasurementCollector measure;
 
+  @Value("${loadtest.payloadFileUrl}")
+  private String payloadFileUrl = null;
+
   @PostConstruct
-  public void go() {
+  public void go() throws Exception {
+    String payload = "{\"hello\":\"world\"}"; // default
+    if (payloadFileUrl != null) {
+      payload = readFromUrl(payloadFileUrl);
+    }
+
     measure.start();
     while (true) {
-      startInstance("{\"hello\":\"test\"}");
+      startInstance(payload);
       measure.increment();
     }
   }
@@ -29,13 +44,29 @@ public class Starter {
   private void startInstance(String payload) {
     try {
       zeebeClient.workflowClient().newCreateInstanceCommand() //
-        .bpmnProcessId("sample-load-generation-workflow") //
-        .latestVersion() //
-        .payload(payload) //
-        .send().join();
+          .bpmnProcessId("sample-load-generation-workflow") //
+          .latestVersion() //
+          .payload(payload) //
+          .send().join();
     } catch (Exception ex) {
       ex.printStackTrace();
     }
   }
-  
+
+  public static String readFromUrl(String url) throws Exception {
+    InputStream is = new URL(url).openStream();
+    try {
+      BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+
+      StringBuilder sb = new StringBuilder();
+      int cp;
+      while ((cp = rd.read()) != -1) {
+        sb.append((char) cp);
+      }
+      return sb.toString();
+    } finally {
+      is.close();
+    }
+  }
+
 }

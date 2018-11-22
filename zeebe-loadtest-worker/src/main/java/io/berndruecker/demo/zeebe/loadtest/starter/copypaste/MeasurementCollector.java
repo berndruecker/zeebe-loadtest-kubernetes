@@ -45,6 +45,16 @@ public class MeasurementCollector {
   @Value("${loadtest.storage}")
   private String storage;
   
+  @Value("${zeebe.numberOfWorkerThreads}")
+  private int numberOfWorkerThreads;   
+
+  @Value("${loadtest.bpmnProcess}")
+  private int bpmnProcess;
+  
+  @Value("${loadtest.workExecutionTimeInMillis}")
+  private int workExecutionTimeInMillis;
+
+  
   @Autowired
   private RestHighLevelClient elasticClient;
   
@@ -84,6 +94,10 @@ public class MeasurementCollector {
         jsonMap.put("machineType", machineType);
         jsonMap.put("storage", storage);        
         
+        jsonMap.put("numberOfWorkerThreads", numberOfWorkerThreads);        
+        jsonMap.put("bpmnProcess", bpmnProcess);        
+        jsonMap.put("workExecutionTimeInMillis", workExecutionTimeInMillis);        
+
         jsonMap.put("hostname", InetAddress.getLocalHost().getHostName());
         jsonMap.put("count", count);
 

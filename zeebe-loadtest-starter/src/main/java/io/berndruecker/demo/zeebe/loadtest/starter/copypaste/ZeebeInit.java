@@ -1,5 +1,6 @@
 package io.berndruecker.demo.zeebe.loadtest.starter.copypaste;
 
+import java.net.URL;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -15,13 +16,23 @@ public class ZeebeInit {
   @Value("${zeebe.brokerContactPoint}")
   private String zeebeBrokerContactPoint;
 
+  @Value("${zeebe.numberOfWorkerThreads}")
+  private int numberOfWorkerThreads = 1;    
+  
+  @Value("${loadtest.bpmnProcess}")
+  private String bpmnProcessId = "sample-load-generation-workflow";
+
+  @Value("${loadtest.bpmnProcessFileUrl}")
+  private String bpmnProcessFileUrl = null;
+  
   @Bean
-  public ZeebeClient zeebe() {
+  public ZeebeClient zeebe() throws Exception {
     System.out.println("Connect to Zeebe at '" + zeebeBrokerContactPoint + "'...");
 
     // Cannot yet use Spring Zeebe in current alpha
     ZeebeClient zeebeClient = ZeebeClient.newClientBuilder() //
         .brokerContactPoint(zeebeBrokerContactPoint) //
+        .numJobWorkerExecutionThreads(numberOfWorkerThreads) //
         .build();
 
     // check if workflow is already deployed:
@@ -31,13 +42,18 @@ public class ZeebeInit {
         .getWorkflows();
     
     boolean workflowDeployed = workflows.stream()
-        .anyMatch(workflow -> workflow.getBpmnProcessId().equals("sample-load-generation-workflow"));
+        .anyMatch(workflow -> workflow.getBpmnProcessId().equals(bpmnProcessId));
     
     if (!workflowDeployed) {
-      // Trigger deployment
-      zeebeClient.workflowClient().newDeployCommand() //
+      if (bpmnProcessFileUrl!=null) { // deploy model from URL
+        zeebeClient.workflowClient().newDeployCommand() //
+          .addResourceStream(new URL(bpmnProcessFileUrl).openStream(), bpmnProcessId + ".bpmn") //
+          .send().join();        
+      } else { // deploy default model from classpath
+        zeebeClient.workflowClient().newDeployCommand() //
           .addResourceFromClasspath("sample-load-generation-workflow.bpmn") //
-          .send().join();
+          .send().join();        
+      }
       System.out.println("...deployed workflow definition successfully...");
     }
 
