@@ -49,7 +49,7 @@ public class MeasurementCollector {
   private int numberOfWorkerThreads;   
 
   @Value("${loadtest.bpmnProcess}")
-  private int bpmnProcess;
+  private String bpmnProcess;
   
   @Value("${loadtest.workExecutionTimeInMillis}")
   private int workExecutionTimeInMillis;

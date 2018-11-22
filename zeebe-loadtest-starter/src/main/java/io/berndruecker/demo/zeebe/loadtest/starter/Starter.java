@@ -26,6 +26,10 @@ public class Starter {
 
   @Value("${loadtest.payloadFileUrl}")
   private String payloadFileUrl = null;
+  
+  @Value("${loadtest.bpmnProcess}")
+  private String bpmnProcess="sample-load-generation-workflow";
+  
 
   @PostConstruct
   public void go() throws Exception {
@@ -44,7 +48,7 @@ public class Starter {
   private void startInstance(String payload) {
     try {
       zeebeClient.workflowClient().newCreateInstanceCommand() //
-          .bpmnProcessId("sample-load-generation-workflow") //
+          .bpmnProcessId(bpmnProcess) //
           .latestVersion() //
           .payload(payload) //
           .send().join();
