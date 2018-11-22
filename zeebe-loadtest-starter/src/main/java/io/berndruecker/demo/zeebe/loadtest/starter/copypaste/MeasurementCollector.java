@@ -49,7 +49,7 @@ public class MeasurementCollector {
   private int numberOfWorkerThreads;   
 
   @Value("${loadtest.bpmnProcess}")
-  private String bpmnProcess;
+  private String bpmnProcessId;
   
   @Value("${loadtest.workExecutionTimeInMillis}")
   private int workExecutionTimeInMillis;
@@ -95,7 +95,7 @@ public class MeasurementCollector {
         jsonMap.put("storage", storage);        
         
         jsonMap.put("numberOfWorkerThreads", numberOfWorkerThreads);        
-        jsonMap.put("bpmnProcess", bpmnProcess);        
+        jsonMap.put("bpmnProcess", bpmnProcessId);        
         jsonMap.put("workExecutionTimeInMillis", workExecutionTimeInMillis);        
 
         jsonMap.put("hostname", InetAddress.getLocalHost().getHostName());
