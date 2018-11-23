@@ -16,13 +16,13 @@ public class ZeebeInit {
   @Value("${zeebe.brokerContactPoint}")
   private String zeebeBrokerContactPoint;
 
-  @Value("${zeebe.numberOfWorkerThreads}")
+  @Value("${zeebe.numberOfWorkerThreads:1}")
   private int numberOfWorkerThreads = 1;    
   
-  @Value("${loadtest.bpmnProcess}")
+  @Value("${loadtest.bpmnProcess:sample-load-generation-workflow}")
   private String bpmnProcessId = "sample-load-generation-workflow";
 
-  @Value("${loadtest.bpmnProcessFileUrl}")
+  @Value("${loadtest.bpmnProcessFileUrl:#{null}}")
   private String bpmnProcessFileUrl = null;
   
   @Bean
