@@ -24,10 +24,10 @@ public class Starter {
   @Autowired
   private MeasurementCollector measure;
 
-  @Value("${loadtest.payloadFileUrl}")
+  @Value("${loadtest.payloadFileUrl:#{null}}")
   private String payloadFileUrl = null;
   
-  @Value("${loadtest.bpmnProcess}")
+  @Value("${loadtest.bpmnProcess:sample-load-generation-workflow}")
   private String bpmnProcess="sample-load-generation-workflow";
   
 

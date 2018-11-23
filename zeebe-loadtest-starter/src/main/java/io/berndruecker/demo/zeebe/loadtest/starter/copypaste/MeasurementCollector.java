@@ -6,12 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -56,7 +52,7 @@ public class MeasurementCollector {
 
   
   @Autowired
-  private RestHighLevelClient elasticClient;
+  private Elasticsearch elastic;
   
   public void increment() {
     count.incrementAndGet();
@@ -81,8 +77,6 @@ public class MeasurementCollector {
   
   public void sendToElastic(Date date, int count) {
     try {
-      if (elasticClient != null) {
-
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("timestamp", date);
 
@@ -101,16 +95,7 @@ public class MeasurementCollector {
         jsonMap.put("hostname", InetAddress.getLocalHost().getHostName());
         jsonMap.put("count", count);
 
-        IndexRequest indexRequest = new IndexRequest(//
-            "zeebe-load-metrics-" + type, //
-            "doc", //
-            UUID.randomUUID().toString()) //
-                .source(jsonMap);
-
-        elasticClient.index(indexRequest, RequestOptions.DEFAULT);
-      } else {
-        System.out.print(".Could not send metrics to elastic, not connected.");
-      }
+        elastic.sendToElastic(type, jsonMap);
     } catch (Exception ex) {
       System.out.println("Could not send metrics to elastic due to exception");
       ex.printStackTrace();

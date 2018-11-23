@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
       app: load-worker
-  replicas: 5
+  replicas: 1
   template:
     metadata:
       labels:
@@ -28,7 +28,7 @@ spec:
           - name: loadtest.jobType
             value: "some-work"            
           - name: loadtest.numberOfClientNodes
-            value: "5"
+            value: "1"
           - name: loadtest.numberOfWorkerThreads
             value: "1"
           - name: loadtest.workExecutionTimeInMillis
