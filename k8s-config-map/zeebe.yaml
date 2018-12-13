@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       app: zeebe
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
@@ -32,7 +32,7 @@ spec:
       #    privileged: true
       containers:
       - name: zeebe
-        image: camunda/zeebe:0.12.1
+        image: camunda/zeebe:0.14.0
         ports:
         - containerPort: 26500
           name: gateway
@@ -56,13 +56,13 @@ spec:
               fieldRef:
                 fieldPath: metadata.name   
           - name: ZEEBE_CLUSTER_SIZE
-            value: "3"
+            value: "1"
           - name: ZEEBE_CONTACT_POINTS
             value: "zeebe-0.zeebe:26502"
           - name: ZEEBE_REPLICATION_FACTOR
-            value: "3"
+            value: "1"
           - name: ZEEBE_PARTITIONS_COUNT
-            value: "3"
+            value: "1"
           #- name: ZEEBE_LOG_LEVEL
           #  value: debug
         #resources:
