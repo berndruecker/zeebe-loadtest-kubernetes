@@ -15,14 +15,12 @@ data:
         port: 9300
       zeebe:
         brokerContactPoint: zeebe-gateway:26500
-        topics:
-          - new-topic
         worker: operate
       zeebeElasticsearch:
         clusterName: elasticsearch-cluster
         host: elastic-gateway
         port: 9300
-        prefix: operate
+        prefix: zeebe
     logging:
       level:
         ROOT: INFO

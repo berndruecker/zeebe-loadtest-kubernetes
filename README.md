@@ -84,9 +84,9 @@ gcloud container clusters delete zeebe-load
 kubectl exec -it zeebe-0 -- /bin/bash
 ```
 
-* Show Zeebe cluster topolgy (on Zeeeb pod):
+* Show Zeebe cluster topology (on Zeebe pod):
 ```
-ZB_BROKER_ADDR=zeebe-0.zeebe:26500 /usr/local/zeebe/bin/zbctl status
+zbctl status
 ```
 
 * Show log of Zeebe
