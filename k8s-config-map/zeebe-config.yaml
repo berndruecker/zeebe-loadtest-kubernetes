@@ -18,7 +18,7 @@ data:
       size = 1
 
       [exporters.args.index]
-      prefix = "operate"
+      prefix = "zeebe"
       createTemplate = true
       command = false
       event = true
