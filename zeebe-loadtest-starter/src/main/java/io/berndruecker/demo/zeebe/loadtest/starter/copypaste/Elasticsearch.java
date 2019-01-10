@@ -1,6 +1,5 @@
 package io.berndruecker.demo.zeebe.loadtest.starter.copypaste;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.Map;
 import java.util.UUID;
@@ -29,8 +28,8 @@ public class Elasticsearch {
     }
     try {
       IndexRequest indexRequest = new IndexRequest(//
-          "zeebe-load-metrics-" + type, //
-          "_doc", //
+          "load-metrics-" + type, //
+          "doc", //
           UUID.randomUUID().toString()) //
               .source(jsonMap);
 
