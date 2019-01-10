@@ -1,10 +1,13 @@
 package io.berndruecker.demo.zeebe.loadtest.starter;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import io.berndruecker.demo.zeebe.loadtest.starter.copypaste.MeasurementCollector;
 import io.zeebe.client.ZeebeClient;
+import io.zeebe.client.api.commands.Workflow;
 
 @Component
 public class Starter {
@@ -28,11 +32,15 @@ public class Starter {
   private String payloadFileUrl = null;
   
   @Value("${loadtest.bpmnProcess:sample-load-generation-workflow}")
-  private String bpmnProcess="sample-load-generation-workflow";
+  private String bpmnProcessId="sample-load-generation-workflow";
   
+  @Value("${loadtest.bpmnProcessFileUrl:#{null}}")
+  private String bpmnProcessFileUrl = null;
 
   @PostConstruct
   public void go() throws Exception {
+    deployWorkflowDefinition();
+    
     String payload = "{\"hello\":\"world\"}"; // default
     if (payloadFileUrl != null) {
       payload = readFromUrl(payloadFileUrl);
@@ -44,11 +52,36 @@ public class Starter {
       measure.increment();
     }
   }
+  
+  private void deployWorkflowDefinition() throws Exception {
+    // check if workflow is already deployed:
+    List<Workflow> workflows = zeebeClient.workflowClient() //
+        .newWorkflowRequest() //
+        .send().join() //
+        .getWorkflows();
+    
+    boolean workflowDeployed = workflows.stream()
+        .anyMatch(workflow -> workflow.getBpmnProcessId().equals(bpmnProcessId));
+    
+    if (!workflowDeployed) {
+      if (bpmnProcessFileUrl!=null) { // deploy model from URL
+        zeebeClient.workflowClient().newDeployCommand() //
+          .addResourceStream(new URL(bpmnProcessFileUrl).openStream(), bpmnProcessId + ".bpmn") //
+          .send().join();        
+      } else { // deploy default model from classpath
+        zeebeClient.workflowClient().newDeployCommand() //
+          .addResourceFromClasspath("sample-load-generation-workflow.bpmn") //
+          .send().join();        
+      }
+      System.out.println("...deployed workflow definition successfully...");
+    }
+    
+  }
 
   private void startInstance(String payload) {
     try {
       zeebeClient.workflowClient().newCreateInstanceCommand() //
-          .bpmnProcessId(bpmnProcess) //
+          .bpmnProcessId(bpmnProcessId) //
           .latestVersion() //
           .payload(payload) //
           .send().join();

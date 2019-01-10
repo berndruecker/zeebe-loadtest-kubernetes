@@ -51,7 +51,9 @@ public class Worker {
             
             // and move on
             measure.increment();
-          }).open()
+          })
+          .bufferSize(1)
+          .open()
        );
   } 
   
