@@ -95,7 +95,7 @@ spec:
     spec:
       accessModes:
         - ReadWriteOnce
-      storageClassName: storage
+      storageClassName: standard
       # NOTE: You can increase the storage size
       resources:
         requests:

@@ -30,7 +30,7 @@ public class Elasticsearch {
     try {
       IndexRequest indexRequest = new IndexRequest(//
           "zeebe-load-metrics-" + type, //
-          "doc", //
+          "_doc", //
           UUID.randomUUID().toString()) //
               .source(jsonMap);
 

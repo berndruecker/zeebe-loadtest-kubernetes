@@ -15,6 +15,23 @@ spec:
       labels:
         app: zeebe
     spec:
+      initContainers:
+      # NOTE:
+      # This is to fix the permission on the volume
+      # By default elasticsearch container is not run as
+      # non root user.
+      # https://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html#_notes_for_production_use_and_defaults
+      - name: fix-the-volume-permission
+        image: busybox
+        command:
+        - sh
+        - -c
+        - chown -R 1000:1000 /usr/local/zeebe/data
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: data
+          mountPath: /usr/local/zeebe/data
       volumes:
       - name: configuration
         configMap:
@@ -76,9 +93,20 @@ spec:
           - name: configuration
             mountPath: /usr/local/zeebe/conf/zeebe.cfg.toml
             subPath: zeebe.cfg.toml
+          - name: data
+            mountPath: /usr/local/zeebe/data
         command:
           - "/bin/sh"
           - "-c"
           - "export ZEEBE_NODE_ID=$((${MY_POD_NAME##*-})) && /usr/local/bin/startup.sh"
-
-# [[exporters]]\nid="elasticsearch"\nclassName="io.zeebe.exporter.ElasticsearchExporter"\n[exporter.args]\nurl="http://elastic-rest:9200"\n[exporters.args.bulk]\nsize=1' >> conf/zeebe.cfg.toml &&
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      storageClassName: standard
+      # NOTE: You can increase the storage size
+      resources:
+        requests:
+          storage: 10Gi
