@@ -24,6 +24,9 @@ public class Worker {
   @Value("${loadtest.workExecutionTimeInMillis:0}")
   private int workExecutionTimeInMillis = 0;
 
+  @Value("${loadtest.numberOfFetchedJobs:1}")
+  private int numberOfFetchedJobs = 1;
+
   @Value("${loadtest.jobType:some-work}")
   private List<String> jobTypes = Collections.singletonList("some-work");  
 
@@ -52,7 +55,7 @@ public class Worker {
             // and move on
             measure.increment();
           })
-          .bufferSize(1)
+          .bufferSize(numberOfFetchedJobs)
           .open()
        );
   } 
