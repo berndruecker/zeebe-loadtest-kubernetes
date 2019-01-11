@@ -1,10 +1,8 @@
 package io.berndruecker.demo.zeebe.loadtest.starter;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.List;
@@ -48,8 +46,9 @@ public class Starter {
 
     measure.start();
     while (true) {
-      startInstance(payload);
-      measure.increment();
+      if (startInstance(payload)) {
+        measure.increment();
+      }
     }
   }
   
@@ -78,15 +77,17 @@ public class Starter {
     
   }
 
-  private void startInstance(String payload) {
+  private boolean startInstance(String payload) {
     try {
       zeebeClient.workflowClient().newCreateInstanceCommand() //
           .bpmnProcessId(bpmnProcessId) //
           .latestVersion() //
           .payload(payload) //
           .send().join();
+      return true;
     } catch (Exception ex) {
       ex.printStackTrace();
+      return false;
     }
   }
 
