@@ -18,7 +18,7 @@ data:
       size = 1
 
       [exporters.args.index]
-      prefix = "zeebe"
+      prefix = "zeebe-record"
       createTemplate = true
       command = false
       event = true

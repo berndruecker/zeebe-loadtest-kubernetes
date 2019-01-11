@@ -20,7 +20,7 @@ data:
         clusterName: elasticsearch-cluster
         host: elastic-gateway
         port: 9300
-        prefix: zeebe
+        prefix: zeebe-record
     logging:
       level:
         ROOT: INFO
