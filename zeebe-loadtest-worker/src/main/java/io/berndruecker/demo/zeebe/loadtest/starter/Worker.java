@@ -35,7 +35,7 @@ public class Worker {
     measure.start();
     
     jobTypes.forEach( jobType ->
-      zeebeClient.jobClient() //
+      zeebeClient //
           .newWorker() //
           .jobType(jobType) // 
           .handler((jobClient, job) -> {
