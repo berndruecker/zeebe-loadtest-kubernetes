@@ -82,7 +82,7 @@ public class Starter {
       zeebeClient.newCreateInstanceCommand() //
           .bpmnProcessId(bpmnProcessId) //
           .latestVersion() //
-          .payload(payload) //
+          .variables(payload) //
           .send().join();
       return true;
     } catch (Exception ex) {
